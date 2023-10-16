@@ -9,6 +9,11 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 
 function App() {
+    type ListItem = {
+        id: number;
+        value: string;
+        descriptions: string[]; 
+    };    
     const [currentItem, NewItem] = useState<string>("");
     const [Lists, SetLists] = useState<ListItem[]>([]);
     const [CompletedList, SetCompletedList] = useState<ListItem[]>([]);
@@ -25,17 +30,24 @@ function App() {
     }
 
     function addDescription(id: number) {
-        SetLists(oldList =>
-            oldList.map(item =>
-                item.id === id
-                    ? {
-                          ...item,
-                          descriptions: [...item.descriptions, description],
-                      }
-                    : item
-            )
-        );
+        if(setDescription.length < 3){
+            SetLists(oldList =>
+                oldList.map(item =>
+                    item.id === id
+                        ? {
+                            ...item,
+                            descriptions: [...item.descriptions, description],
+                        }
+                        : item
+                )
+            );
+        }
         setDescription(""); 
+        <input 
+                    type="date" 
+                    id="last_name" 
+                    style = {{ width: "250px" }}
+                />
     }
 
     function deleteItem(id: number) {
@@ -67,15 +79,20 @@ function App() {
                                 {item.descriptions.map((desc: string, index: number) => (
                                     <li key={index}>{desc}</li>
                                 ))}
+                                <input 
+                    type="date" 
+                    id="last_name" 
+                    style = {{ width: "250px" }}
+                />
                             </ul>
                             <input
                                 type="text"
-                                style={{ width: "250px" }}
+                                style={{ width: "150px" }}
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}
                             />
                             <button
-                                className="button button1"
+                                className="button button4"
                                 onClick={() => addDescription(item.id)}
                             >
                                 Add Description
