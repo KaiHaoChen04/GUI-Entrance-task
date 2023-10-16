@@ -4,7 +4,7 @@
     box-sizing: border-box;
   }
   body {
-    background-image: linear-gradient(120deg, #f6d365 0%, #fda085 100%);
+    background-image: linear-gradient(140deg, #65f6d2 0%, #f785fd 90%);
     color: white;
     font: sans-serif;
     font-size: small;
@@ -21,12 +21,57 @@
     justify-content: center;
     align-items: center;
   }
-.box-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 20px;
-  padding: 20px;
-}
 .styled-input{
+  position:absolute;
+  top:150px;
+  right: 520px;
+}
+.button{
+  border: none;
+  color: white;
+  padding: 4px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+.button1 {
+  background-color: white; 
+  color: black; 
+  border: 3px solid #4CAF50;
+}
+.button2{
+  background-color: white; 
+  color: black; 
+  border: 3px solid red;
+}
+.button3{
+  background-color: white; 
+  color: white; 
+  border: 3px solid green;
+}
+.button3:hover{
+  background-color: green;
+  color: white;
+}
+.button2:hover{
+  background-color: red;
+  color: white;
+}
+.button1:hover {
+  background-color: #4CAF50;
+  color: white;
+}
+.completedTasks{
+  position:absolute;
+  top: 300px;
+  right:350px;
+}
+.ToDo{
+  position: absolute;
+  top: 300px;
+  left: 360px;
 }
