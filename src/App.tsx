@@ -4,8 +4,8 @@ By: KaiHao Chen
 Rover Software entrance task 
 */
 
-
-import React, { useState, useEffect } from 'react';
+//Imports
+import React, { useState , KeyboardEvent} from 'react';
 import './App.css';
 
 function App() {
@@ -18,6 +18,13 @@ function App() {
     const [Lists, SetLists] = useState<ListItem[]>([]);
     const [CompletedList, SetCompletedList] = useState<ListItem[]>([]);
     const [description, setDescription] = useState<string>("");
+    const [tags, setTags] = useState<string[]>([]);
+    const addTags = (event: KeyboardEvent<HTMLInputElement>, id:number) => {
+        if (event.key === "Enter") {
+            setTags([...tags, event.currentTarget.value]);
+            event.currentTarget.value = '';
+        }
+    };
 
     function addItem() {
         const item = {
@@ -30,24 +37,22 @@ function App() {
     }
 
     function addDescription(id: number) {
-        if(setDescription.length < 3){
-            SetLists(oldList =>
-                oldList.map(item =>
-                    item.id === id
-                        ? {
-                            ...item,
-                            descriptions: [...item.descriptions, description],
-                        }
-                        : item
-                )
-            );
-        }
+        SetLists(oldList =>
+            oldList.map(item =>
+            item.id === id
+            ? {
+                ...item,
+                descriptions: [...item.descriptions, description],
+            }
+                : item
+            )
+         );
         setDescription(""); 
         <input 
-                    type="date" 
-                    id="last_name" 
-                    style = {{ width: "250px" }}
-                />
+            type="date" 
+            id="last_name" 
+            style = {{ width: "250px" }}
+         />
     }
 
     function deleteItem(id: number) {
@@ -72,18 +77,29 @@ function App() {
             <div className="ToDo">
                 <h3>ToDo's</h3>
                 <ul>
+                <div className='tag'>
+                {tags.map((tags, index) =>
+                    <li key ={index}>
+                        <span>{tags}</span>
+                    </li>
+                    )}
+                    </div>
                     {Lists.map(item => (
                         <li key={item.id}>
-                            {item.value}
+                            {item.value} <input type="text" 
+                            className = "tags-input" 
+                            placeholder='Add tags' 
+                            onKeyUp={(e) => addTags(e, item.id)}
+                            />
                             <ul>
                                 {item.descriptions.map((desc: string, index: number) => (
-                                    <li key={index}>{desc}</li>
+                                    <li key={index}>{desc}</li> 
                                 ))}
                                 <input 
-                    type="date" 
-                    id="last_name" 
-                    style = {{ width: "250px" }}
-                />
+                                    type="date" 
+                                    id="last_name" 
+                                    style = {{ width: "250px" }}
+                                />
                             </ul>
                             <input
                                 type="text"
@@ -104,6 +120,7 @@ function App() {
                                 ✔️
                             </button>
                         </li>
+                        
                     ))}
                 </ul>
             </div>
@@ -130,5 +147,4 @@ function App() {
         </div>
     );
 }
-
 export default App;

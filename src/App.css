@@ -81,3 +81,18 @@
   top: 300px;
   left: 360px;
 }
+.tags-input {
+	display:flex;
+	align-items: flex-start;
+	flex-wrap:nowrap;
+	min-height: 35px;
+	width: 350px;
+	padding: 2 6px;
+	border: 1px solid rgb(37, 114, 191);
+	border-radius: 6px;
+}
+.tag{
+  font: sans-serif; 
+  color: #FF0000;
+  padding: 2px;
+}
