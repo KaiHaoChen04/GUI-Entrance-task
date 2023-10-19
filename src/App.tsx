@@ -1,36 +1,24 @@
-/*
-ToDoList 
-By: KaiHao Chen
-Rover Software entrance task 
-*/
-
-//Imports
-import React, { useState , KeyboardEvent} from 'react';
-import './App.css';
+import React, { useState } from 'react';
+import "./App.css";
 
 function App() {
     type ListItem = {
         id: number;
         value: string;
-        descriptions: string[]; 
-    };    
+        descriptions: string[];
+        tags: string[];
+    };
     const [currentItem, NewItem] = useState<string>("");
     const [Lists, SetLists] = useState<ListItem[]>([]);
     const [CompletedList, SetCompletedList] = useState<ListItem[]>([]);
     const [description, setDescription] = useState<string>("");
-    const [tags, setTags] = useState<string[]>([]);
-    const addTags = (event: KeyboardEvent<HTMLInputElement>, id:number) => {
-        if (event.key === "Enter") {
-            setTags([...tags, event.currentTarget.value]);
-            event.currentTarget.value = '';
-        }
-    };
 
     function addItem() {
         const item = {
             id: Math.floor(Math.random() * 1000),
             value: currentItem,
             descriptions: [] as string[],
+            tags: [] as string[],
         };
         SetLists(oldList => [...oldList, item]);
         NewItem("");
@@ -39,20 +27,29 @@ function App() {
     function addDescription(id: number) {
         SetLists(oldList =>
             oldList.map(item =>
-            item.id === id
-            ? {
-                ...item,
-                descriptions: [...item.descriptions, description],
-            }
-                : item
+                item.id === id
+                    ? {
+                          ...item,
+                          descriptions: [...item.descriptions, description],
+                      }
+                    : item
             )
-         );
-        setDescription(""); 
-        <input 
-            type="date" 
-            id="last_name" 
-            style = {{ width: "250px" }}
-         />
+        );
+        setDescription("");
+    }
+
+    function addTags(id: number, tag: string) {
+        SetLists(oldList =>
+            oldList.map(item => {
+                if (item.id === id && item.tags.length < 3) {
+                    return {
+                        ...item,
+                        tags: [...item.tags, tag],
+                    };
+                }
+                return item;
+            })
+        );
     }
 
     function deleteItem(id: number) {
@@ -77,30 +74,32 @@ function App() {
             <div className="ToDo">
                 <h3>ToDo's</h3>
                 <ul>
-                <div className='tag'>
-                {tags.map((tags, index) =>
-                    <li key ={index}>
-                        <span>{tags}</span>
-                    </li>
-                    )}
-                    </div>
                     {Lists.map(item => (
                         <li key={item.id}>
-                            {item.value} <input type="text" 
-                            className = "tags-input" 
-                            placeholder='Add tags' 
-                            onKeyUp={(e) => addTags(e, item.id)}
-                            />
+                            {item.value}
                             <ul>
                                 {item.descriptions.map((desc: string, index: number) => (
-                                    <li key={index}>{desc}</li> 
+                                    <li key={index}>{desc}</li>
                                 ))}
-                                <input 
-                                    type="date" 
-                                    id="last_name" 
-                                    style = {{ width: "250px" }}
-                                />
                             </ul>
+                            <div className="tags-container">
+                                {item.tags.map((tag, index) => (
+                                    <span className="tag" key={index}>
+                                        {tag}
+                                    </span>
+                                ))}
+                            </div>
+                            <input
+                                type="text"
+                                className="tags-input"
+                                placeholder="Add tags"
+                                onKeyUp={(e) => {
+                                    if (e.key === 'Enter') {
+                                        addTags(item.id, e.currentTarget.value);
+                                        e.currentTarget.value = '';
+                                    }
+                                }}
+                            />
                             <input
                                 type="text"
                                 style={{ width: "150px" }}
@@ -120,7 +119,6 @@ function App() {
                                 ✔️
                             </button>
                         </li>
-                        
                     ))}
                 </ul>
             </div>
@@ -147,4 +145,5 @@ function App() {
         </div>
     );
 }
+
 export default App;
